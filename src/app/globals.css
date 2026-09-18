@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/* Paleta tomada de la propuesta presentada a la dirección. */
+@theme {
+  --color-lienzo: #f5f2ea;
+  --color-papel: #fffdf8;
+  --color-tinta: #22271f;
+  --color-terracota: #b0562c;
+  --color-terracota-suave: #f3e4da;
+  --color-oliva: #1e2a1c;
+  --color-humo: #6b6a63;
+  --color-borde: #e4dfd3;
+
+  --font-sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html,
+body {
+  background-color: var(--color-lienzo);
+  color: var(--color-tinta);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Etiqueta pequeña en versalitas, como los títulos de sección de la propuesta. */
+@utility rotulo {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-terracota);
+}
+
+@utility tarjeta {
+  background-color: var(--color-papel);
+  border: 1px solid var(--color-borde);
+  border-radius: 0.625rem;
+}
+
+@utility campo {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-borde);
+  background-color: #fff;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-tinta);
+}
+
+@utility campo-focus {
+  outline: 2px solid var(--color-terracota);
+  outline-offset: 1px;
+}
+
+.campo:focus,
+select.campo:focus,
+textarea.campo:focus {
+  outline: 2px solid var(--color-terracota);
+  outline-offset: 1px;
+}
