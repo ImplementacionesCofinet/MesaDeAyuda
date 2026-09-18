@@ -2,8 +2,10 @@
 
 ## Requisitos
 
-- Node.js 22 o superior
+- Node.js 20.9 o superior
 - PostgreSQL 16 (local o en Docker)
+
+O, más simple: **solo Docker**. Ver "Probar sin instalar Node" más abajo.
 
 ## Puesta en marcha
 
@@ -34,6 +36,66 @@ npm run db:migrate    # crea el esquema
 npm run db:seed       # áreas, categorías, acuerdos y datos de ejemplo
 npm run dev           # http://localhost:3000
 ```
+
+## Probar sin instalar Node (Docker Desktop)
+
+Levanta la aplicación completa con su base de datos, sin npm ni PostgreSQL en
+el equipo. Útil para probar el inicio de sesión antes de tener servidor.
+
+```bash
+cp .env.example .env
+```
+
+En `.env` basta con:
+
+```bash
+POSTGRES_PASSWORD=una-clave-cualquiera-local
+APP_URL=http://localhost:3000
+AUTH_SECRET=<32 caracteres o más>
+ENTRA_TENANT_ID=...
+ENTRA_CLIENT_ID=...
+ENTRA_CLIENT_SECRET=...
+ADMIN_EMAILS=tu.correo@cofinet.com.au
+MAIL_ENABLED=false
+```
+
+```bash
+docker compose up --build
+```
+
+Al arrancar aplica las migraciones y carga áreas, categorías y niveles de
+prioridad. La mesa queda en http://localhost:3000. Para detenerla, `Ctrl+C`;
+para borrar también los datos, `docker compose down -v`.
+
+Requiere que `http://localhost:3000/api/auth/callback` esté registrada como URI
+de redirección en Entra ID.
+
+## Si `npm install` falla en Windows
+
+El error `npm error Exit handler never called!` no viene del proyecto: es un
+fallo de npm al escribir `node_modules`. Las tres causas habituales, en orden:
+
+1. **La carpeta está en OneDrive.** El escritorio corporativo suele estar
+   sincronizado, y OneDrive intenta subir los miles de archivos de
+   `node_modules` mientras npm los escribe. Mueve el proyecto a una ruta local:
+   `C:\dev\mesadeayuda`.
+2. **La ruta tiene tildes o es muy larga.** Rutas con `García`, espacios o más
+   de 260 caracteres rompen herramientas de Node. La misma solución: una ruta
+   corta y sin acentos.
+3. **Caché de npm dañada.** `npm cache clean --force` y reintentar.
+
+```powershell
+cd C:\dev
+git clone -b claude/cofinet-help-desk-chl4dc https://github.com/ImplementacionesCofinet/MesaDeAyuda.git mesadeayuda
+cd mesadeayuda
+npm cache clean --force
+npm install --no-audit --no-fund
+```
+
+Si vuelve a fallar, el detalle está en el archivo que el propio error indica
+(`...\npm-cache\_logs\<fecha>-debug-0.log`); las últimas líneas dicen en qué
+paquete se cayó. El antivirus corporativo bloqueando escrituras en
+`node_modules` es la otra causa frecuente.
 
 ## Pruebas
 

@@ -42,6 +42,13 @@ visible al priorizar.
 | [docs/operacion.md](docs/operacion.md) | Cómo se opera la mesa: roles, estados, acuerdos de tiempo |
 | [docs/desarrollo.md](docs/desarrollo.md) | Levantar el proyecto en local y ejecutar pruebas |
 
+Para probarla en un equipo sin instalar nada más que Docker:
+
+```bash
+cp .env.example .env     # completar credenciales
+docker compose up --build
+```
+
 Resumen para el servidor interno:
 
 ```bash
