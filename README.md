@@ -72,11 +72,12 @@ src/app/                  Páginas: panel, requerimientos, tablero, administraci
 e2e/                      Prueba del ciclo completo en navegador
 ```
 
-## Pruebas
+## Pruebas y comprobaciones
 
 ```bash
-npm test         # reglas de dominio: estados, permisos, cálculo de fechas
-npm run test:e2e # ciclo completo en navegador (requiere la app levantada)
+npm run verificar # revisa la configuración contra Entra ID, la base y el correo
+npm test          # reglas de dominio: estados, permisos, cálculo de fechas
+npm run test:e2e  # ciclo completo en navegador (requiere la app levantada)
 ```
 
 ## Lo que no incluye esta primera versión

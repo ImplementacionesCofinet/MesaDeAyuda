@@ -33,7 +33,16 @@ SMTP_USER=mesadeayuda@cofinet.com.au
 SMTP_PASSWORD=<clave de la cuenta de envío>
 ```
 
-Levantar:
+Antes de levantar, comprobar que la configuración sirve:
+
+```bash
+npm install          # solo para esta comprobación, no hace falta para operar
+npm run verificar
+```
+
+Revisa contra los servicios reales el inquilino de Entra ID, la aplicación y su
+secreto, la base de datos y el servidor de correo, y dice qué arreglar en cada
+caso. Luego:
 
 ```bash
 docker compose up -d --build

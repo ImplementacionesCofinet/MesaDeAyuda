@@ -69,6 +69,18 @@ Si se prefiere que nadie entre sin alta previa, poner
 
 ## 5. Comprobación
 
+Antes de abrirla a la gente, con los tres valores ya en el archivo `.env`:
+
+```bash
+npm run verificar
+```
+
+Comprueba contra los servicios reales que el inquilino responde, que la
+aplicación existe y que el secreto sirve (además de la base de datos y el
+correo saliente). Lo que **no** puede comprobar es la URI de redirección:
+Entra ID solo la valida cuando alguien inicia sesión de verdad. Por eso el
+último paso es entrar:
+
 1. Abrir la URL de la mesa en una ventana privada.
 2. **Entrar con la cuenta de Cofinet** → autenticarse.
 3. Debe caer en el panel con el nombre y el rol correctos.

@@ -38,6 +38,7 @@ npm run dev           # http://localhost:3000
 ## Pruebas
 
 ```bash
+npm run verificar         # configuración: Entra ID, base de datos y correo
 npm test                  # reglas de dominio (estados, permisos, fechas hábiles)
 npm run typecheck
 npm run test:e2e          # ciclo completo en navegador, con la app levantada
