@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { authorizeUrl, randomToken } from "@/lib/auth/entra";
+import { explicarErrorEntra } from "@/lib/auth/errores";
 import { saveLoginFlow } from "@/lib/auth/session";
 
 /** Solo se aceptan destinos internos, para no convertir el login en un redirector abierto. */
@@ -23,6 +24,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(url);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Error desconocido";
-    return NextResponse.redirect(new URL(`/login?error=${encodeURIComponent(message)}`, request.nextUrl.origin));
+    return NextResponse.redirect(
+      new URL(`/login?error=${encodeURIComponent(explicarErrorEntra(message))}`, request.nextUrl.origin),
+    );
   }
 }

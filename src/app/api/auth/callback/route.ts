@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { exchangeCode, verifyIdToken } from "@/lib/auth/entra";
+import { codigoEntra, explicarErrorEntra } from "@/lib/auth/errores";
 import { createSession, takeLoginFlow } from "@/lib/auth/session";
 import { AuthError, upsertUserFromClaims } from "@/lib/auth/users";
 
@@ -11,7 +12,7 @@ export async function GET(request: NextRequest) {
     NextResponse.redirect(new URL(`/login?error=${encodeURIComponent(message)}`, origin));
 
   const entraError = params.get("error_description") ?? params.get("error");
-  if (entraError) return fail(entraError);
+  if (entraError) return fail(explicarErrorEntra(entraError));
 
   const code = params.get("code");
   const state = params.get("state");
@@ -29,7 +30,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(flow.returnTo, origin));
   } catch (error) {
     if (error instanceof AuthError) return fail(error.message);
-    console.error("Fallo el inicio de sesion con Entra ID", error);
+
+    const detalle = error instanceof Error ? error.message : String(error);
+    console.error("Fallo el inicio de sesion con Entra ID:", detalle);
+
+    // Los errores del intercambio de código traen el código AADSTS de Entra.
+    if (codigoEntra(detalle)) return fail(explicarErrorEntra(detalle));
     return fail("No se pudo completar el inicio de sesión. Revisa la configuración de Entra ID.");
   }
 }
