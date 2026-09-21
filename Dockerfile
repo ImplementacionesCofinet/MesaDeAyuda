@@ -11,7 +11,13 @@
 FROM node:22-alpine AS deps
 WORKDIR /app
 COPY docker/certs/ /usr/local/share/ca-certificates/
-RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
+# Los certificados exportados desde Windows llegan con finales de línea CRLF;
+# se normalizan antes de agregarlos al almacén de confianza.
+RUN for f in /usr/local/share/ca-certificates/*.crt; do \
+      [ -e "$f" ] || continue; \
+      sed -i 's/\r$//' "$f"; \
+      cat "$f" >> /etc/ssl/certs/ca-certificates.crt; \
+    done
 ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 COPY package.json package-lock.json .npmrc ./
 # Si la instalación falla, se muestra el registro de npm: su mensaje de error
@@ -21,7 +27,13 @@ RUN npm ci || (tail -n 60 /root/.npm/_logs/*.log; exit 1)
 FROM node:22-alpine AS builder
 WORKDIR /app
 COPY docker/certs/ /usr/local/share/ca-certificates/
-RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
+# Los certificados exportados desde Windows llegan con finales de línea CRLF;
+# se normalizan antes de agregarlos al almacén de confianza.
+RUN for f in /usr/local/share/ca-certificates/*.crt; do \
+      [ -e "$f" ] || continue; \
+      sed -i 's/\r$//' "$f"; \
+      cat "$f" >> /etc/ssl/certs/ca-certificates.crt; \
+    done
 ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
@@ -32,7 +44,13 @@ RUN npm run build
 FROM node:22-alpine AS proddeps
 WORKDIR /app
 COPY docker/certs/ /usr/local/share/ca-certificates/
-RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
+# Los certificados exportados desde Windows llegan con finales de línea CRLF;
+# se normalizan antes de agregarlos al almacén de confianza.
+RUN for f in /usr/local/share/ca-certificates/*.crt; do \
+      [ -e "$f" ] || continue; \
+      sed -i 's/\r$//' "$f"; \
+      cat "$f" >> /etc/ssl/certs/ca-certificates.crt; \
+    done
 ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 COPY package.json package-lock.json .npmrc ./
 COPY prisma ./prisma
@@ -42,7 +60,13 @@ FROM node:22-alpine AS runner
 WORKDIR /app
 # La aplicación habla con Entra ID por HTTPS: necesita el mismo almacén.
 COPY docker/certs/ /usr/local/share/ca-certificates/
-RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
+# Los certificados exportados desde Windows llegan con finales de línea CRLF;
+# se normalizan antes de agregarlos al almacén de confianza.
+RUN for f in /usr/local/share/ca-certificates/*.crt; do \
+      [ -e "$f" ] || continue; \
+      sed -i 's/\r$//' "$f"; \
+      cat "$f" >> /etc/ssl/certs/ca-certificates.crt; \
+    done
 ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
