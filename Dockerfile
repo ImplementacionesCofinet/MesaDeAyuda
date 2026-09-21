@@ -3,11 +3,13 @@
 
 FROM node:22-alpine AS deps
 WORKDIR /app
+RUN apk add --no-cache openssl
 COPY package.json package-lock.json ./
 RUN npm ci
 
 FROM node:22-alpine AS builder
 WORKDIR /app
+RUN apk add --no-cache openssl
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -16,12 +18,14 @@ RUN npm run build
 # Dependencias de ejecución (incluyen prisma y tsx para migrar y sembrar datos).
 FROM node:22-alpine AS proddeps
 WORKDIR /app
+RUN apk add --no-cache openssl
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 RUN npm ci --omit=dev
 
 FROM node:22-alpine AS runner
 WORKDIR /app
+RUN apk add --no-cache openssl
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
@@ -36,7 +40,10 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/package.json ./package.json
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh && chown -R mesa:mesa /app
+# Se normalizan los finales de línea por si el archivo se clonó en Windows.
+RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh \
+  && chmod +x /usr/local/bin/entrypoint.sh \
+  && chown -R mesa:mesa /app
 
 USER mesa
 EXPOSE 3000

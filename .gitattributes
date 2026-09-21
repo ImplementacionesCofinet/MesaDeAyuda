@@ -1,0 +1,10 @@
+# Normaliza los finales de línea en el repositorio.
+* text=auto
+
+# Los scripts que corren dentro de los contenedores deben conservar finales de
+# línea de Unix: con CRLF, el contenedor no los puede ejecutar. Git para Windows
+# convierte a CRLF por omisión, así que sin esta regla la imagen falla al
+# arrancar en cualquier equipo Windows.
+*.sh text eol=lf
+docker/entrypoint.sh text eol=lf
+Dockerfile text eol=lf
