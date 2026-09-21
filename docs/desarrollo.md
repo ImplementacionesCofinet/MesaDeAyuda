@@ -63,12 +63,44 @@ MAIL_ENABLED=false
 docker compose up --build
 ```
 
+En Windows, para generar el `AUTH_SECRET` (no hay `openssl`):
+
+```powershell
+$b = New-Object byte[] 48
+[Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b)
+[Convert]::ToBase64String($b)
+```
+
 Al arrancar aplica las migraciones y carga áreas, categorías y niveles de
 prioridad. La mesa queda en http://localhost:3000. Para detenerla, `Ctrl+C`;
 para borrar también los datos, `docker compose down -v`.
 
 Requiere que `http://localhost:3000/api/auth/callback` esté registrada como URI
 de redirección en Entra ID.
+
+### Si Docker Desktop no arranca en Windows
+
+El mensaje *"Virtualization support not detected"* casi nunca significa que el
+equipo no sirva: significa que Windows no le está entregando virtualización.
+Para saber cuál de las dos causas es, en PowerShell:
+
+```powershell
+systeminfo | Select-String "Hyper-V", "Virtualiz"
+```
+
+- **"Se habilitó la virtualización en el firmware: Sí"** → solo faltan las
+  características de Windows. En PowerShell **como administrador**:
+
+  ```powershell
+  wsl --install --no-distribution
+  ```
+
+  Reiniciar y abrir Docker Desktop: debe quedar en *Engine running*. (Si esa
+  versión de Windows no acepta `--no-distribution`, usar `wsl --install` a
+  secas: instala además una distribución de Linux que no estorba.)
+
+- **"...: No"** → hay que habilitar VT-x/AMD-V en la BIOS del equipo, lo que
+  depende de quien administre el parque de máquinas.
 
 ## Si `npm install` falla en Windows
 
