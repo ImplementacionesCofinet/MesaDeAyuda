@@ -13,8 +13,10 @@ WORKDIR /app
 COPY docker/certs/ /usr/local/share/ca-certificates/
 RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
 ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-COPY package.json package-lock.json ./
-RUN npm ci
+COPY package.json package-lock.json .npmrc ./
+# Si la instalación falla, se muestra el registro de npm: su mensaje de error
+# ("Exit handler never called!") no dice nada por sí solo.
+RUN npm ci || (tail -n 60 /root/.npm/_logs/*.log; exit 1)
 
 FROM node:22-alpine AS builder
 WORKDIR /app
@@ -32,9 +34,9 @@ WORKDIR /app
 COPY docker/certs/ /usr/local/share/ca-certificates/
 RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
 ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json .npmrc ./
 COPY prisma ./prisma
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev || (tail -n 60 /root/.npm/_logs/*.log; exit 1)
 
 FROM node:22-alpine AS runner
 WORKDIR /app
