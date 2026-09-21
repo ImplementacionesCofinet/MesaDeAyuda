@@ -1,15 +1,26 @@
 # Imagen de la mesa de ayuda. Build multietapa: dependencias, compilación y
 # una imagen final mínima que aplica migraciones y arranca el servidor.
+#
+# Redes con inspección TLS: si la empresa intercepta el tráfico HTTPS con su
+# propio certificado, los contenedores no confían en él y fallan al descargar
+# paquetes ("TLS: server certificate not trusted"). Para resolverlo, deja el
+# certificado raíz de la empresa en docker/certs/ (ver docs/despliegue.md);
+# cada etapa lo agrega al almacén de confianza. Si la carpeta está vacía, no
+# pasa nada: la construcción sigue igual.
 
 FROM node:22-alpine AS deps
 WORKDIR /app
-RUN apk add --no-cache openssl
+COPY docker/certs/ /usr/local/share/ca-certificates/
+RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
+ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 COPY package.json package-lock.json ./
 RUN npm ci
 
 FROM node:22-alpine AS builder
 WORKDIR /app
-RUN apk add --no-cache openssl
+COPY docker/certs/ /usr/local/share/ca-certificates/
+RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
+ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -18,14 +29,19 @@ RUN npm run build
 # Dependencias de ejecución (incluyen prisma y tsx para migrar y sembrar datos).
 FROM node:22-alpine AS proddeps
 WORKDIR /app
-RUN apk add --no-cache openssl
+COPY docker/certs/ /usr/local/share/ca-certificates/
+RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
+ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 COPY package.json package-lock.json ./
 COPY prisma ./prisma
 RUN npm ci --omit=dev
 
 FROM node:22-alpine AS runner
 WORKDIR /app
-RUN apk add --no-cache openssl
+# La aplicación habla con Entra ID por HTTPS: necesita el mismo almacén.
+COPY docker/certs/ /usr/local/share/ca-certificates/
+RUN cat /usr/local/share/ca-certificates/*.crt >> /etc/ssl/certs/ca-certificates.crt 2>/dev/null || true
+ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000

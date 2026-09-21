@@ -20,3 +20,7 @@ uploads/
 
 test-results/
 playwright-report/
+
+# Certificados de la red donde se despliega: propios de cada instalación.
+docker/certs/*.crt
+docker/certs/*.pem

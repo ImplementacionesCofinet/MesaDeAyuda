@@ -124,6 +124,40 @@ Restaurar:
 gunzip -c /respaldos/mesa-2026-09-18.sql.gz | docker compose exec -T db psql -U mesa -d mesadeayuda
 ```
 
+## Redes que inspeccionan el tráfico HTTPS
+
+Si la empresa intercepta HTTPS con su propio certificado (Zscaler, Fortinet,
+Netskope y similares), la construcción falla al descargar paquetes:
+
+```
+TLS: server certificate not trusted
+```
+
+No es un problema del proyecto: el contenedor no conoce la autoridad
+certificadora de la empresa. La solución es dejarla en `docker/certs/`, de
+donde cada etapa de la imagen la toma. Desde un equipo Windows que ya confía en
+ella, en PowerShell y dentro de la carpeta del proyecto:
+
+```powershell
+$pem = foreach ($c in Get-ChildItem Cert:\LocalMachine\Root) {
+  "-----BEGIN CERTIFICATE-----"
+  [Convert]::ToBase64String($c.RawData, 'InsertLineBreaks')
+  "-----END CERTIFICATE-----"
+}
+$pem | Set-Content docker\certs\empresa.crt -Encoding ascii
+```
+
+Desde un servidor Linux, el certificado suele estar en
+`/usr/local/share/ca-certificates/` o lo entrega el área de infraestructura.
+Después, reconstruir:
+
+```bash
+docker compose build --no-cache
+docker compose up -d
+```
+
+Los archivos `.crt` no se versionan: cada red tiene los suyos.
+
 ## Revisar problemas
 
 ```bash
@@ -141,3 +175,8 @@ docker compose exec db psql -U mesa -d mesadeayuda \
 
 Un envío `FALLIDO` no bloquea nada: el ticket se guarda igual y el cambio
 queda visible en la mesa.
+
+Si al arrancar el contenedor aparece un error de Prisma sobre `libssl.so.3`,
+la imagen base necesita OpenSSL explícito: agregar `RUN apk add --no-cache
+openssl` en las etapas del `Dockerfile` (requiere que la red permita descargar
+paquetes de Alpine, o el certificado de la sección anterior).
