@@ -46,7 +46,7 @@ function describeEvent(event: TicketEvent & { actor: Pick<User, "name"> | null }
 function Dato({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="tarjeta p-4">
-      <dt className="text-[13px] font-semibold text-terracota">{label}</dt>
+      <dt className="text-[13px] font-semibold text-marca">{label}</dt>
       <dd className="mt-1.5 text-sm leading-snug text-tinta">{children}</dd>
     </div>
   );
@@ -165,7 +165,7 @@ export default async function TicketPage({ params }: { params: Promise<{ code: s
           ) : null}
 
           {puedeConfirmar ? (
-            <section className="tarjeta border-terracota/40 p-6">
+            <section className="tarjeta border-marca/40 p-6">
               <h2 className="text-sm font-semibold text-tinta">El requerimiento está entregado</h2>
               <p className="mt-1 mb-4 text-sm text-humo">
                 Si ya validaste la entrega, confírmala para cerrarlo. Si algo no quedó bien, escríbelo como comentario.

@@ -28,11 +28,11 @@ export function TicketTable({ tickets, empty }: { tickets: TicketListItem[]; emp
           {tickets.map((ticket) => (
             <tr key={ticket.id} className="border-b border-borde/70 last:border-0 hover:bg-lienzo/60">
               <td className="px-4 py-3 align-top">
-                <Link href={`/tickets/${ticket.code}`} className="font-semibold text-tinta hover:text-terracota">
+                <Link href={`/tickets/${ticket.code}`} className="font-semibold text-tinta hover:text-marca">
                   {ticket.title}
                 </Link>
                 <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-humo">
-                  <span className="font-semibold text-terracota">{ticket.code}</span>
+                  <span className="font-semibold text-marca">{ticket.code}</span>
                   <span>·</span>
                   <span>{ticket.category.name}</span>
                   <span>·</span>

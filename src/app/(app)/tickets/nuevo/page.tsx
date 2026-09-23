@@ -51,7 +51,7 @@ export default async function NuevoTicketPage() {
       )}
 
       <p className="mt-6 text-sm text-humo">
-        <Link href="/tickets" className="text-terracota hover:underline">
+        <Link href="/tickets" className="text-marca hover:underline">
           Ver los requerimientos ya registrados
         </Link>
       </p>

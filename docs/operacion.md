@@ -8,10 +8,35 @@
 | **Datos y TI** | El equipo del área | Todo lo anterior sobre cualquier ticket, más gestionar estado, etapa, responsable, prioridad y fechas |
 | **Administrador** | Quien lidera el área | Además: áreas, categorías, roles y acuerdos de tiempo |
 
+Los roles de **Datos y TI** y **Administrador** se otorgan de dos maneras, y la
+primera gana sobre la segunda en cada inicio de sesión: por configuración del
+despliegue (`AGENT_EMAILS` y `ADMIN_EMAILS` en el archivo `.env`) o desde
+**Administración → Usuarios**. Quitar un correo de esas listas le baja el rol
+la próxima vez que entre.
+
 Qué ve cada quien: el equipo de Datos y TI ve todos los tickets. Una persona de
 un área ve los suyos, los de su área y las iniciativas internas de Datos y TI
 (están en el mismo tablero justamente para que se vea la carga real). Las
 **notas internas** nunca salen del equipo.
+
+## Cómo entra una persona nueva
+
+1. Abre la dirección de la mesa y entra con su cuenta de Cofinet. No hay
+   contraseñas nuevas ni solicitudes de alta: si tiene cuenta corporativa,
+   entra.
+2. En su primer ingreso elige su área. Desde ese momento puede registrar
+   requerimientos y ve los suyos y los de su área.
+3. Queda como **solicitante**. Si es del equipo de Datos y TI, su correo debe
+   estar en `AGENT_EMAILS` (o un administrador le cambia el rol desde
+   **Administración → Usuarios**).
+
+El área se elige una sola vez y después solo la cambia un administrador. No es
+una formalidad: el área define qué requerimientos ve cada quien, así que
+cambiarla libremente sería una forma de ver los de otra área.
+
+En **Administración → Usuarios**, quien no tenga área aparece destacado
+arriba. Son las personas que entraron pero no terminaron de configurarse, y las
+que un administrador puede desatascar en dos clics.
 
 ## Estados
 

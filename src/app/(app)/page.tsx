@@ -10,9 +10,9 @@ function Kpi({ label, value, href, tone }: { label: string; value: number; href:
   return (
     <Link
       href={href}
-      className="tarjeta block p-4 transition hover:border-terracota/40 hover:shadow-[0_1px_0_0_rgba(176,86,44,0.12)]"
+      className="tarjeta block p-4 transition hover:border-marca/40 hover:shadow-[0_1px_0_0_rgba(176,86,44,0.12)]"
     >
-      <div className={`text-3xl font-semibold ${tone === "alerta" && value > 0 ? "text-terracota" : "text-tinta"}`}>
+      <div className={`text-3xl font-semibold ${tone === "alerta" && value > 0 ? "text-marca" : "text-tinta"}`}>
         {value}
       </div>
       <div className="mt-1 text-sm text-humo">{label}</div>
@@ -60,7 +60,7 @@ export default async function PanelPage() {
           <h2 className="text-lg font-semibold text-tinta">
             {agente ? "A tu cargo" : "Entregados: esperan tu confirmación"}
           </h2>
-          <Link href={agente ? "/tickets?vista=a-mi-cargo" : "/tickets?estado=ENTREGADO"} className="text-sm text-terracota hover:underline">
+          <Link href={agente ? "/tickets?vista=a-mi-cargo" : "/tickets?estado=ENTREGADO"} className="text-sm text-marca hover:underline">
             Ver todos
           </Link>
         </div>
@@ -73,7 +73,7 @@ export default async function PanelPage() {
       <section className="space-y-3">
         <div className="flex items-baseline justify-between">
           <h2 className="text-lg font-semibold text-tinta">Mis solicitudes</h2>
-          <Link href="/tickets?vista=mios" className="text-sm text-terracota hover:underline">
+          <Link href="/tickets?vista=mios" className="text-sm text-marca hover:underline">
             Ver todas
           </Link>
         </div>

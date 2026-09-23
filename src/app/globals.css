@@ -1,15 +1,37 @@
 @import "tailwindcss";
 
-/* Paleta tomada de la propuesta presentada a la dirección. */
+/* Paleta institucional de Cofinet.
+   Verdes profundos para la identidad y la acción; vino y ladrillo para
+   acentos y alertas; cremas cálidos para fondos y superficies. */
 @theme {
-  --color-lienzo: #f5f2ea;
-  --color-papel: #fffdf8;
-  --color-tinta: #22271f;
-  --color-terracota: #b0562c;
-  --color-terracota-suave: #f3e4da;
-  --color-oliva: #1e2a1c;
-  --color-humo: #6b6a63;
-  --color-borde: #e4dfd3;
+  /* Fondos y superficies */
+  --color-lienzo: #f0e7df;
+  --color-papel: #fdfaf7;
+  --color-crema: #efddc9;
+  --color-borde: #e0d2c4;
+
+  /* Texto */
+  --color-tinta: #2d3733;
+  --color-humo: #4e5d59;
+
+  /* Identidad: verde */
+  --color-marca: #0f4b42;
+  --color-marca-oscura: #1d3b37;
+  --color-marca-suave: #dbe4e3;
+  --color-bosque: #1d3b37;
+  --color-teal: #258278;
+  --color-teal-suave: #deeceb;
+
+  /* Acentos: vino y tierra */
+  --color-vino: #671741;
+  --color-vino-claro: #932553;
+  --color-vino-suave: #e8dce3;
+  --color-ladrillo: #8d321d;
+  --color-ladrillo-suave: #eee0dd;
+  --color-arena: #b37956;
+  --color-arena-suave: #f1e7e1;
+  --color-azul: #263849;
+  --color-azul-suave: #dee1e4;
 
   --font-sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
@@ -31,7 +53,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-terracota);
+  color: var(--color-vino);
 }
 
 @utility tarjeta {
@@ -50,14 +72,9 @@ body {
   color: var(--color-tinta);
 }
 
-@utility campo-focus {
-  outline: 2px solid var(--color-terracota);
-  outline-offset: 1px;
-}
-
 .campo:focus,
 select.campo:focus,
 textarea.campo:focus {
-  outline: 2px solid var(--color-terracota);
+  outline: 2px solid var(--color-marca);
   outline-offset: 1px;
 }

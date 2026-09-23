@@ -2,15 +2,16 @@ import type { Priority, TicketOrigin, TicketStatus } from "@prisma/client";
 import { dueState, DUE_STATE_LABEL } from "@/lib/domain/sla";
 import { ORIGIN_LABEL, PRIORITY_LABEL, STATUS_LABEL } from "@/lib/domain/status";
 
+/** Cada estado tiene su color de la paleta institucional, del gris al verde. */
 const STATUS_STYLE: Record<TicketStatus, string> = {
-  NUEVO: "bg-[#EDEAE0] text-[#4A4A43] ring-[#DAD5C8]",
-  EN_ANALISIS: "bg-[#E6EDF4] text-[#2B4C6F] ring-[#C9DAEA]",
-  EN_DESARROLLO: "bg-[#F3E4DA] text-[#8C3F1D] ring-[#E4C7B4]",
-  EN_PRUEBAS: "bg-[#EFE7F4] text-[#5A3A70] ring-[#DCCCE6]",
-  EN_ESPERA: "bg-[#FAEFD2] text-[#7A5A12] ring-[#EBD9A8]",
-  ENTREGADO: "bg-[#E3EFE3] text-[#2E5C33] ring-[#C6DEC8]",
-  CERRADO: "bg-[#1E2A1C] text-[#EFEDE4] ring-[#1E2A1C]",
-  CANCELADO: "bg-[#EDEAE0] text-[#8A8A82] ring-[#DAD5C8]",
+  NUEVO: "bg-[#EAE0D6] text-[#4E5D59] ring-[#DCCEC0]",
+  EN_ANALISIS: "bg-[#DEE1E4] text-[#263849] ring-[#C8CFD6]",
+  EN_DESARROLLO: "bg-[#DEECEB] text-[#1D3B37] ring-[#BFD9D6]",
+  EN_PRUEBAS: "bg-[#DBE4E3] text-[#0F4B42] ring-[#BCD2CF]",
+  EN_ESPERA: "bg-[#F1E7E1] text-[#8D321D] ring-[#E2CDC1]",
+  ENTREGADO: "bg-[#CFE2DF] text-[#0F4B42] ring-[#AFCDC8]",
+  CERRADO: "bg-[#1D3B37] text-[#F0E7DF] ring-[#1D3B37]",
+  CANCELADO: "bg-[#EAE0D6] text-[#8A8078] ring-[#DCCEC0]",
 };
 
 export function StatusBadge({ status }: { status: TicketStatus }) {
@@ -24,9 +25,9 @@ export function StatusBadge({ status }: { status: TicketStatus }) {
 }
 
 const PRIORITY_STYLE: Record<Priority, string> = {
-  ALTA: "bg-[#FBE7E1] text-[#96331A] ring-[#F0C6B8]",
-  MEDIA: "bg-[#F5F0E2] text-[#7A6A28] ring-[#E4DCC0]",
-  BAJA: "bg-[#ECEFEA] text-[#4E5A4C] ring-[#D6DCD2]",
+  ALTA: "bg-[#EFDEE5] text-[#671741] ring-[#DFC3D0]",
+  MEDIA: "bg-[#F1E7E1] text-[#8D321D] ring-[#E2CDC1]",
+  BAJA: "bg-[#E6E4DF] text-[#4E5D59] ring-[#D6D2CA]",
 };
 
 export function PriorityBadge({ priority }: { priority: Priority }) {
@@ -40,13 +41,14 @@ export function PriorityBadge({ priority }: { priority: Priority }) {
   );
 }
 
+/** El compromiso de fecha: verde cuando se cumple, vino cuando se rompe. */
 const DUE_STYLE: Record<string, string> = {
   sin_fecha: "text-humo",
-  a_tiempo: "text-[#2E5C33]",
-  por_vencer: "text-[#7A5A12]",
-  vencido: "text-[#96331A] font-semibold",
-  cumplido: "text-[#2E5C33]",
-  incumplido: "text-[#96331A]",
+  a_tiempo: "text-[#0F4B42]",
+  por_vencer: "text-[#8D321D]",
+  vencido: "text-[#932553] font-semibold",
+  cumplido: "text-[#0F4B42]",
+  incumplido: "text-[#932553]",
 };
 
 export function DueBadge({
@@ -63,7 +65,7 @@ export function DueBadge({
 export function OriginBadge({ origin }: { origin: TicketOrigin }) {
   if (origin === "AREA") return null;
   return (
-    <span className="inline-flex items-center rounded-full bg-oliva px-2.5 py-0.5 text-xs font-semibold text-[#EFEDE4]">
+    <span className="inline-flex items-center rounded-full bg-bosque px-2.5 py-0.5 text-xs font-semibold text-[#F0E7DF]">
       {ORIGIN_LABEL.INTERNO}
     </span>
   );

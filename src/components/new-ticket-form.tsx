@@ -37,7 +37,7 @@ export function NewTicketForm({
                 key={valor}
                 className={`cursor-pointer rounded-lg border px-3 py-2 text-sm transition ${
                   origen === valor
-                    ? "border-terracota bg-terracota-suave font-semibold text-terracota"
+                    ? "border-marca bg-marca-suave font-semibold text-marca"
                     : "border-borde bg-white text-humo hover:text-tinta"
                 }`}
               >
@@ -112,7 +112,7 @@ export function NewTicketForm({
 
       <fieldset>
         <legend className="mb-1.5 block text-sm font-semibold text-tinta">
-          Prioridad<span className="text-terracota"> *</span>
+          Prioridad<span className="text-marca"> *</span>
         </legend>
         <div className="grid gap-2 md:grid-cols-3">
           {PRIORITY_ORDER.map((p) => (
@@ -120,8 +120,8 @@ export function NewTicketForm({
               key={p}
               className={`cursor-pointer rounded-lg border p-3 text-sm transition ${
                 prioridad === p
-                  ? "border-terracota bg-terracota-suave"
-                  : "border-borde bg-white hover:border-terracota/40"
+                  ? "border-marca bg-marca-suave"
+                  : "border-borde bg-white hover:border-marca/40"
               }`}
             >
               <input
@@ -132,7 +132,7 @@ export function NewTicketForm({
                 onChange={() => setPrioridad(p)}
                 className="sr-only"
               />
-              <span className={`block font-semibold ${prioridad === p ? "text-terracota" : "text-tinta"}`}>
+              <span className={`block font-semibold ${prioridad === p ? "text-marca" : "text-tinta"}`}>
                 {PRIORITY_LABEL[p]}
               </span>
               <span className="mt-1 block text-xs leading-snug text-humo">{PRIORITY_CRITERION[p]}</span>

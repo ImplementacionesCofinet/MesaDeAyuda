@@ -6,7 +6,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="rounded-lg px-3 py-1.5 text-sm font-medium text-tinta/80 transition hover:bg-terracota-suave hover:text-terracota"
+      className="rounded-lg px-3 py-1.5 text-sm font-medium text-tinta/80 transition hover:bg-marca-suave hover:text-marca"
     >
       {children}
     </Link>
@@ -32,7 +32,7 @@ export function TopNav({ user }: { user: SessionUser }) {
         <div className="flex items-center gap-3">
           <Link
             href="/tickets/nuevo"
-            className="rounded-lg bg-terracota px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#9B4A25]"
+            className="rounded-lg bg-marca px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1D3B37]"
           >
             Nuevo requerimiento
           </Link>

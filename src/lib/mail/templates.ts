@@ -17,10 +17,12 @@ export type TicketMailData = {
   dueDate: Date | null;
 };
 
-const BG = "#F5F2EA";
-const INK = "#22271F";
-const ACCENT = "#B0562C";
-const MUTED = "#6B6A63";
+// Paleta institucional de Cofinet, en línea con la interfaz.
+const BG = "#F0E7DF";
+const INK = "#2D3733";
+const ACCENT = "#0F4B42";
+const ACCENT_ALT = "#671741";
+const MUTED = "#4E5D59";
 
 export function formatDate(date: Date | null): string {
   if (!date) return "Por definir";
@@ -57,7 +59,7 @@ export function ticketEmail(params: {
   const url = `${env.appUrl}/tickets/${ticket.code}`;
 
   const extraBlock = extra
-    ? `<div style="margin:20px 0;padding:14px 16px;background:#FFFFFF;border-left:3px solid ${ACCENT};border-radius:4px">
+    ? `<div style="margin:20px 0;padding:14px 16px;background:#FDFAF7;border-left:3px solid ${ACCENT_ALT};border-radius:4px">
          <div style="color:${MUTED};font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">${escape(extra.label)}</div>
          <div style="color:${INK};font-size:14px;line-height:1.5;white-space:pre-wrap">${escape(extra.body)}</div>
        </div>`
@@ -65,9 +67,9 @@ export function ticketEmail(params: {
 
   const html = `<!doctype html>
 <html lang="es"><body style="margin:0;padding:24px;background:${BG};font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
-  <table role="presentation" style="max-width:620px;margin:0 auto;background:#FFFDF8;border:1px solid #E4DFD3;border-radius:10px">
+  <table role="presentation" style="max-width:620px;margin:0 auto;background:#FDFAF7;border:1px solid #E0D2C4;border-radius:10px">
     <tr><td style="padding:28px 32px">
-      <div style="color:${ACCENT};font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700">Mesa de ayuda · Datos y TI</div>
+      <div style="color:${ACCENT_ALT};font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700">Mesa de ayuda · Datos y TI</div>
       <h1 style="margin:10px 0 4px;color:${INK};font-size:21px;font-weight:600">${escape(headline)}</h1>
       <p style="margin:0 0 18px;color:${MUTED};font-size:14px;line-height:1.5">${escape(intro)}</p>
 

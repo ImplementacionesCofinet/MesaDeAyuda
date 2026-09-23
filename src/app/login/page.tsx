@@ -43,7 +43,7 @@ export default async function LoginPage({
 
           <a
             href={loginHref}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-terracota px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#9B4A25]"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-marca px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#1D3B37]"
           >
             Entrar con la cuenta de Cofinet
           </a>
@@ -86,7 +86,7 @@ export default async function LoginPage({
             ["Historial", "Todo cambio queda registrado"],
           ].map(([titulo, detalle]) => (
             <div key={titulo} className="tarjeta p-3">
-              <dt className="text-[13px] font-semibold text-terracota">{titulo}</dt>
+              <dt className="text-[13px] font-semibold text-marca">{titulo}</dt>
               <dd className="mt-1 leading-snug">{detalle}</dd>
             </div>
           ))}

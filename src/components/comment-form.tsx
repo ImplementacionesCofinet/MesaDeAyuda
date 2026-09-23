@@ -31,7 +31,7 @@ export function CommentForm({ ticketId, esAgente }: { ticketId: string; esAgente
       <div className="flex flex-wrap items-center justify-between gap-3">
         {esAgente ? (
           <label className="flex items-center gap-2 text-sm text-humo">
-            <input type="checkbox" name="internal" className="size-4 accent-[#B0562C]" />
+            <input type="checkbox" name="internal" className="size-4 accent-[#0F4B42]" />
             Nota interna (no la ve el área solicitante)
           </label>
         ) : (

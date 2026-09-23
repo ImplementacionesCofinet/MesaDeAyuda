@@ -59,10 +59,10 @@ export default async function TableroPage() {
                   <Link
                     key={ticket.id}
                     href={`/tickets/${ticket.code}`}
-                    className="tarjeta block p-3 transition hover:border-terracota/40"
+                    className="tarjeta block p-3 transition hover:border-marca/40"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-xs font-semibold text-terracota">{ticket.code}</span>
+                      <span className="text-xs font-semibold text-marca">{ticket.code}</span>
                       <PriorityBadge priority={ticket.priority} />
                     </div>
                     <p className="mt-1.5 text-sm font-semibold leading-snug text-tinta">{ticket.title}</p>

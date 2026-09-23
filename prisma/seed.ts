@@ -123,6 +123,13 @@ async function seedDemo() {
     update: {},
   });
 
+  // Persona recién llegada: sirve para probar la pantalla de bienvenida.
+  await prisma.user.upsert({
+    where: { email: "demo.nuevo@cofinet.com.au" },
+    create: { email: "demo.nuevo@cofinet.com.au", name: "Nicolás Peña (demo)", role: "SOLICITANTE" },
+    update: {},
+  });
+
   const categorias = await prisma.category.findMany();
   const cat = (name: string) => categorias.find((c) => c.name.startsWith(name))!.id;
 

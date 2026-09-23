@@ -17,7 +17,7 @@ export function SubmitButton({
     "inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-60";
   const styles =
     variant === "primary"
-      ? "bg-terracota text-white hover:bg-[#9B4A25]"
+      ? "bg-marca text-white hover:bg-[#1D3B37]"
       : "border border-borde bg-white text-tinta hover:bg-lienzo";
 
   return (
@@ -60,7 +60,7 @@ export function Field({
     <label className="block">
       <span className="mb-1.5 block text-sm font-semibold text-tinta">
         {label}
-        {required ? <span className="text-terracota"> *</span> : null}
+        {required ? <span className="text-marca"> *</span> : null}
       </span>
       {children}
       {hint ? <span className="mt-1 block text-xs text-humo">{hint}</span> : null}

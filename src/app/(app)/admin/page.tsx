@@ -19,6 +19,16 @@ export default async function AdminPage() {
     (a): a is NonNullable<typeof a> => Boolean(a),
   );
 
+  // Quien no tiene área queda arriba: es quien puede estar atascado.
+  const sinArea = usuarios.filter((u) => !u.areaId && u.active);
+  const conArea = usuarios.filter((u) => u.areaId || !u.active);
+  const resumen = {
+    total: usuarios.length,
+    equipo: usuarios.filter((u) => u.role !== "SOLICITANTE" && u.active).length,
+    admins: usuarios.filter((u) => u.role === "ADMIN" && u.active).length,
+    inactivos: usuarios.filter((u) => !u.active).length,
+  };
+
   return (
     <div className="space-y-10">
       <div>
@@ -70,12 +80,33 @@ export default async function AdminPage() {
 
       <section className="tarjeta p-6">
         <h2 className="text-lg font-semibold text-tinta">Usuarios</h2>
-        <p className="mt-1 mb-2 text-sm text-humo">
-          Los usuarios se crean solos en su primer inicio de sesión con la cuenta de Cofinet. Aquí les asignas área y
-          rol.
+        <p className="mt-1 text-sm text-humo">
+          Cada persona se crea sola en su primer inicio de sesión con la cuenta de Cofinet y elige su área. Aquí
+          cambias roles, trasladas de área y das de baja.
         </p>
-        <div>
-          {usuarios.map((u) => (
+        <p className="mt-3 text-sm text-tinta">
+          {resumen.total} {resumen.total === 1 ? "persona" : "personas"} · {resumen.equipo} en Datos y TI ·{" "}
+          {resumen.admins} {resumen.admins === 1 ? "administrador" : "administradores"}
+          {resumen.inactivos > 0 ? ` · ${resumen.inactivos} inactivas` : ""}
+        </p>
+
+        {sinArea.length > 0 ? (
+          <div className="mt-5 rounded-lg border border-[#E2CDC1] bg-arena-suave p-4">
+            <h3 className="text-sm font-semibold text-[#8D321D]">
+              {sinArea.length} {sinArea.length === 1 ? "persona sin área" : "personas sin área"}
+            </h3>
+            <p className="mt-1 mb-3 text-xs text-humo">
+              Entraron pero todavía no eligieron área, o son del equipo de Datos y TI. Sin área no pueden registrar
+              requerimientos: asígnala tú si se quedaron atascadas.
+            </p>
+            {sinArea.map((u) => (
+              <UserRow key={u.id} user={u} areas={areas} />
+            ))}
+          </div>
+        ) : null}
+
+        <div className="mt-2">
+          {conArea.map((u) => (
             <UserRow key={u.id} user={u} areas={areas} />
           ))}
         </div>

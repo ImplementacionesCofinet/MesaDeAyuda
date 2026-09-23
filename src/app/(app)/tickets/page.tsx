@@ -80,7 +80,7 @@ export default async function TicketsPage({
               key={v.label}
               href={queryFor(v.value)}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition ${
-                activa ? "bg-terracota text-white" : "border border-borde bg-papel text-humo hover:text-tinta"
+                activa ? "bg-marca text-white" : "border border-borde bg-papel text-humo hover:text-tinta"
               }`}
             >
               {v.label}
@@ -159,7 +159,7 @@ export default async function TicketsPage({
         <div className="flex gap-2">
           <button
             type="submit"
-            className="rounded-lg bg-terracota px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#9B4A25]"
+            className="rounded-lg bg-marca px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1D3B37]"
           >
             Filtrar
           </button>

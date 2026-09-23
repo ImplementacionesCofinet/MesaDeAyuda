@@ -84,3 +84,33 @@ test("el área no ve los requerimientos de otras áreas", async ({ page }) => {
   const respuesta = await page.goto(`/tickets/MA-${new Date().getFullYear()}-9001`);
   expect(respuesta?.status()).toBe(404);
 });
+
+test("una persona nueva elige su área y queda lista para registrar", async ({ page }) => {
+  const { PrismaClient } = await import("@prisma/client");
+  const prisma = new PrismaClient();
+  const correo = "demo.nuevo@cofinet.com.au";
+
+  // Se devuelve al usuario a su estado de recién llegado para que la prueba
+  // pueda repetirse.
+  await prisma.user.update({ where: { email: correo }, data: { areaId: null } });
+  await prisma.$disconnect();
+
+  await page.goto("/login");
+  await page.selectOption('select[name="email"]', correo);
+  await page.getByRole("button", { name: "Entrar" }).click();
+
+  // Sin área, la mesa lleva primero a la bienvenida.
+  await page.waitForURL("**/bienvenida");
+  await expect(page.getByRole("heading", { name: /Bienvenido/ })).toBeVisible();
+
+  await page.selectOption('select[name="areaId"]', { label: "Comercial" });
+  await page.getByRole("button", { name: "Entrar a la mesa de ayuda" }).click();
+
+  await page.waitForURL("http://localhost:3000/");
+  await expect(page.getByText("Comercial")).toBeVisible();
+
+  // Y ya puede registrar: el formulario no le reclama área.
+  await page.goto("/tickets/nuevo");
+  await expect(page.getByLabel("Asunto")).toBeVisible();
+  await expect(page.getByText("todavía no tiene un área asignada")).toHaveCount(0);
+});

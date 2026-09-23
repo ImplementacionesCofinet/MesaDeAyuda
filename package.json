@@ -19,7 +19,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:seed": "node --env-file-if-exists=.env --import tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "test:e2e": "playwright test"
+    "test:e2e": "node --env-file-if-exists=.env node_modules/@playwright/test/cli.js test"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

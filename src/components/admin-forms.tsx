@@ -23,7 +23,7 @@ export function AreaForm({ area }: { area?: { id: string; name: string; active: 
       />
       {area ? (
         <label className="flex items-center gap-2 text-sm text-humo">
-          <input type="checkbox" name="active" value="true" defaultChecked={area.active} className="size-4 accent-[#B0562C]" />
+          <input type="checkbox" name="active" value="true" defaultChecked={area.active} className="size-4 accent-[#0F4B42]" />
           Activa
         </label>
       ) : null}
@@ -58,7 +58,7 @@ export function CategoryForm({
       />
       {category ? (
         <label className="flex items-center gap-2 text-sm text-humo">
-          <input type="checkbox" name="active" value="true" defaultChecked={category.active} className="size-4 accent-[#B0562C]" />
+          <input type="checkbox" name="active" value="true" defaultChecked={category.active} className="size-4 accent-[#0F4B42]" />
           Activa
         </label>
       ) : null}
@@ -102,7 +102,7 @@ export function UserRow({
         ))}
       </select>
       <label className="flex items-center gap-2 text-sm text-humo">
-        <input type="checkbox" name="active" value="true" defaultChecked={user.active} className="size-4 accent-[#B0562C]" />
+        <input type="checkbox" name="active" value="true" defaultChecked={user.active} className="size-4 accent-[#0F4B42]" />
         Activo
       </label>
       <SubmitButton variant="secondary">Guardar</SubmitButton>
@@ -123,7 +123,7 @@ export function SlaRow({
       <input type="hidden" name="priority" value={policy.priority} />
       <div className="flex flex-wrap items-center gap-3">
         <div className="min-w-56 flex-1">
-          <div className="text-sm font-semibold text-terracota">{PRIORITY_LABEL[policy.priority]}</div>
+          <div className="text-sm font-semibold text-marca">{PRIORITY_LABEL[policy.priority]}</div>
           <div className="text-xs leading-snug text-humo">{PRIORITY_CRITERION[policy.priority]}</div>
         </div>
         <label className="text-xs text-humo">
@@ -147,7 +147,7 @@ export function SlaRow({
           />
         </label>
         <label className="flex items-center gap-2 text-sm text-humo">
-          <input type="checkbox" name="agreed" defaultChecked={policy.agreed} className="size-4 accent-[#B0562C]" />
+          <input type="checkbox" name="agreed" defaultChecked={policy.agreed} className="size-4 accent-[#0F4B42]" />
           Acordado con las áreas
         </label>
         <SubmitButton variant="secondary">Guardar</SubmitButton>

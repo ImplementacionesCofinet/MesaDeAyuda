@@ -22,7 +22,7 @@ export function EditRequestForm({
 
   return (
     <details className="tarjeta p-5">
-      <summary className="cursor-pointer text-sm font-semibold text-terracota">Corregir la solicitud</summary>
+      <summary className="cursor-pointer text-sm font-semibold text-marca">Corregir la solicitud</summary>
       <form action={action} className="mt-4 space-y-4">
         <input type="hidden" name="ticketId" value={ticketId} />
         <FormFeedback state={state} success="Solicitud actualizada." />
